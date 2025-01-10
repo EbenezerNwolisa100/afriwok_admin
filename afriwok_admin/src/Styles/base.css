@@ -1,0 +1,10 @@
+/* styles/base.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import './variables.css';
+
+body {
+  font-family: 'Inter';
+}

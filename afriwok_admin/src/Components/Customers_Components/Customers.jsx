@@ -1,0 +1,343 @@
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { MoreHorizontal, Download, Filter, Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
+
+const tabs = ["All", "Clients", "Service Providers"];
+
+export default function Dashboard() {
+  const [activeTab, setActiveTab] = useState("All");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [openMenuId, setOpenMenuId] = useState(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (openMenuId && !event.target.closest('td')) {
+        setOpenMenuId(null);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [openMenuId]);
+
+  const getTableColumns = (tab) => {
+    switch (tab) {
+      case "All":
+        return [
+          "Customer ID",
+          "First Name",
+          "Last Name",
+          "Email Address",
+          "Phone Number",
+          "Location",
+          "Status",
+        ];
+      case "Clients":
+        return [
+          "Customer ID",
+          "First Name",
+          "Last Name",
+          "Email Address",
+          "Phone Number",
+          "Location",
+          "Status",
+        ];
+      case "Service Providers":
+        return [
+          "Customer ID",
+          "First Name",
+          "Last Name",
+          "Email Address",
+          "Phone Number",
+          "Location",
+          "Status",
+        ];
+      default:
+        return [];
+    }
+  };
+
+  const getTableData = (tab) => {
+    switch (tab) {
+      case "All":
+        return [
+          {
+            id: "C123 456",
+            cols: [
+              "C123 456",
+              "Addison",
+              "Lakoje",
+              "myemailaddres@gmail.com",
+              "+234 1234567890",
+              "Enugu",
+              "Not Verified",
+            ],
+          },
+          {
+            id: "C133 456",
+            cols: [
+              "C123 456",
+              "Addison",
+              "Lakoje",
+              "myemailaddres@gmail.com",
+              "+234 1234567890",
+              "Enugu",
+              "Not Verified",
+            ],
+          },
+          {
+            id: "C143 456",
+            cols: [
+              "C123 456",
+              "Addison",
+              "Lakoje",
+              "myemailaddres@gmail.com",
+              "+234 1234567890",
+              "Enugu",
+              "Not Verified",
+            ],
+          },
+        ];
+      case "Clients":
+        return [
+            {
+                id: "C153 456",
+                cols: [
+                  "C123 456",
+                  "Addison",
+                  "Lakoje",
+                  "myemailaddres@gmail.com",
+                  "+234 1234567890",
+                  "Enugu",
+                  "Not Verified",
+                ],
+              },
+              {
+                id: "C163 456",
+                cols: [
+                  "C123 456",
+                  "Addison",
+                  "Lakoje",
+                  "myemailaddres@gmail.com",
+                  "+234 1234567890",
+                  "Enugu",
+                  "Not Verified",
+                ],
+              },
+              {
+                id: "C127 456",
+                cols: [
+                  "C123 456",
+                  "Addison",
+                  "Lakoje",
+                  "myemailaddres@gmail.com",
+                  "+234 1234567890",
+                  "Enugu",
+                  "Not Verified",
+                ],
+              },
+        ];
+
+      case "Service Providers":
+        return [
+            {
+                id: "C122 456",
+                cols: [
+                  "C123 456",
+                  "Addison",
+                  "Lakoje",
+                  "myemailaddres@gmail.com",
+                  "+234 1234567890",
+                  "Enugu",
+                  "Not Verified",
+                ],
+              },
+              {
+                id: "C103 456",
+                cols: [
+                  "C123 456",
+                  "Addison",
+                  "Lakoje",
+                  "myemailaddres@gmail.com",
+                  "+234 1234567890",
+                  "Enugu",
+                  "Not Verified",
+                ],
+              },
+        ];
+      default:
+        return [];
+    }
+  };
+
+  const getStatusClass = (status) => {
+    switch (status.toLowerCase()) {
+      case "active":
+      case "completed":
+      case "successful":
+      case "open":
+        return "bg-green-100 text-green-800";
+      case "in active":
+      case "pending":
+      case "closed":
+        return "bg-gray-100 text-gray-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
+
+  return (
+    <div className="max-w-[1400px] mx-auto bg-[#F9F9F9]">
+      {/* Tabs */}
+      <div className="border-b mb-6 -mx-2 md:mx-0">
+        <div className="flex scrollbar-hide">
+          {tabs.map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`px-3 md:px-4 py-2 -mb-px font-sans font-semibold whitespace-nowrap ${
+                activeTab === tab
+                  ? "border-b-2 border-black text-black"
+                  : "text-black"
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Table Section */}
+      {activeTab !== "Subscription" && (
+        <>
+          {/* Table */}
+          <div className="border rounded">
+            <div className="flex bg-white px-4 rounded-t py-4 justify-between items-start md:items-center gap-2">
+              <button className="w-full font-sans font-semibold md:w-auto flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+                <Calendar className="h-4 w-4" />
+                Filter by
+                <Filter className="h-4 w-4" />
+              </button>
+              <button className="w-full font-sans font-semibold md:w-auto flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+                <Download className="h-4 w-4" />
+                Export
+              </button>
+            </div>
+
+            <div className="overflow-x-auto rounded-lg">
+              {/* Table Controls */}
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="">
+                  <tr>
+                    <th className="w-12 px-6 py-2">
+                      <input
+                        type="checkbox"
+                        className="rounded border-gray-300"
+                      />
+                    </th>
+                    {getTableColumns(activeTab).map((column) => (
+                      <th
+                        key={column}
+                        className="px-6 py-2 text-left text-sm font-semibold text-gray-500 font-sans"
+                      >
+                        {column}
+                      </th>
+                    ))}
+                    <th className="px-6 py-2 text-left text-sm font-semibold text-gray-500 font-sans"></th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {getTableData(activeTab).map((row) => (
+                    <tr key={row.id} className="hover:bg-gray-50">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <input
+                          type="checkbox"
+                          className="rounded border-gray-300"
+                        />
+                      </td>
+                      {row.cols.map((col, index) => (
+                        <td key={index} className="px-6 py-4 whitespace-nowrap">
+                          {index === row.cols.length - 1 ? (
+                            <span
+                              className={`px-2 py-1 rounded-full text-xs font-sans ${getStatusClass(
+                                col
+                              )}`}
+                            >
+                              {col}
+                            </span>
+                          ) : (
+                            <span className="text-sm text-gray-900 font-sans">
+                              {col}
+                            </span>
+                          )}
+                        </td>
+                      ))}
+                      <td className="px-6 py-4 whitespace-nowrap relative">
+                        <button 
+                          className="p-1 hover:bg-gray-100 rounded-full"
+                          onClick={() => setOpenMenuId(openMenuId === row.id ? null : row.id)}
+                        >
+                          <MoreHorizontal className="h-4 w-4 text-gray-500 font-sans" />
+                        </button>
+                        {openMenuId === row.id && (
+                          <div className="absolute right-0 mt-1 w-24 bg-white rounded-lg shadow-lg border py-1 z-10">
+                            <Link to={`/customerdetails`}><button 
+                              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            >
+                              View
+                            </button></Link>
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Pagination */}
+            <div className="flex bg-white flex-col md:flex-row items-center justify-between border-t gap-4 px-6 py-6">
+              <span className="text-sm text-gray-500 order-2 font-sans md:order-1">
+                Page {currentPage} of 30
+              </span>
+              <div className="flex items-center gap-2 order-1 md:order-2">
+                <button
+                  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                  disabled={currentPage === 1}
+                  className="flex items-center gap-1 font-sans px-4 py-2 border rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                  Previous
+                </button>
+                <div className="hidden md:flex gap-1">
+                  {[1, 2, 3, 4, 5].map((number) => (
+                    <button
+                      key={number}
+                      onClick={() => setCurrentPage(number)}
+                      className={`w-8 h-8 flex items-center justify-center rounded-lg ${
+                        currentPage === number
+                          ? "bg-gray-600 text-white"
+                          : "border hover:bg-gray-50"
+                      }`}
+                    >
+                      {number}
+                    </button>
+                  ))}
+                  <span className="px-2">...</span>
+                </div>
+                <button
+                  onClick={() => setCurrentPage((prev) => Math.min(prev + 1, 30))}
+                  disabled={currentPage === 30}
+                  className="flex items-center font-sans gap-1 px-4 py-2 border rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                >
+                  Next
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+</div>
+);
+}

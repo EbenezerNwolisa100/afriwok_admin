@@ -1,0 +1,10 @@
+/* styles/variables.css */
+:root {
+    --primary-color: #5b7553; /* Example green color */
+    --secondary-color: #f5f5f5;
+    --text-dark: #333333;
+    --text-light: #999999;
+    --border-color: #e0e0e0;
+    --sidebar-width: 250px;
+  }
+  
