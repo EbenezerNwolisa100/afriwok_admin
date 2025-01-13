@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {
-  Filter,
   Download,
   MoreHorizontal,
   X,
@@ -10,6 +9,7 @@ import {
   Calendar,
   Upload,
 } from "lucide-react";
+import FilterPanel from "../FilterPanel";
 
 export default function Templates() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -18,11 +18,12 @@ export default function Templates() {
   const [selectedStatus, setSelectedStatus] = useState("draft");
   const [isRecipientOpen, setIsRecipientOpen] = useState(false);
   const [isStatusOpen, setIsStatusOpen] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const notifications = [
     {
       id: "TEMP123",
-      recipient: "All Users",
+      recipient: "Hair Stylist",
       createdBy: "Adedemo",
       lastUpdatedBy: "Isjoke",
       lastUpdatedTime: "2024/04/09 00:12:06",
@@ -63,10 +64,13 @@ export default function Templates() {
     <div className="w-full">
       {/* Table */}
       <div className="flex flex-col bg-white border rounded-t border-b-0 sm:flex-row justify-between items-start sm:items-center px-6 py-6 gap-2">
-        <button className="w-full font-sans font-semibold md:w-auto flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+        <button
+          className="w-full font-sans font-semibold md:w-auto flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+          onClick={() => setIsFilterOpen(true)}
+        >
           <Calendar className="h-4 w-4" />
           Filter by
-          <Filter className="h-4 w-4" />
+          <ChevronDown className="h-4 w-4" />
         </button>
         <div className="flex flex-col md:flex-row w-full sm:w-auto gap-2">
           <div className="flex gap-2 w-full sm:w-auto">
@@ -237,190 +241,203 @@ export default function Templates() {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-4 space-y-4">
-          <div className="space-y-1">
-            <label className="text-sm font-medium font-sans">WOK Title*</label>
-            <input
-              type="text"
-              required
-              placeholder="Enter"
-              className="w-full px-3 py-2 border font-sans rounded-md focus:outline-none focus:ring-2 focus:ring-[#798466] focus:border-transparent"
-            />
-          </div>
-
-          <div className="space-y-1">
-            <label className="text-sm font-medium font-sans">
-              WOK Description*
-            </label>
-            <input
-              type="text"
-              required
-              placeholder="Enter"
-              className="w-full px-3 py-2 border font-sans rounded-md focus:outline-none focus:ring-2 focus:ring-[#798466] focus:border-transparent"
-            />
-          </div>
-          <div className="space-y-1">
-            <label className="text-sm font-medium font-sans">
-              Service Category
-            </label>
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => setIsRecipientOpen(!isRecipientOpen)}
-                className="w-full px-3 py-2 font-sans text-left border rounded-md flex items-center justify-between hover:border-gray-400"
-              >
-                {selectedRecipient === "all" ? "All/User" : "Specific Users"}
-                <ChevronDown className="h-4 w-4" />
-              </button>
-              {isRecipientOpen && (
-                <div className="absolute top-full font-sans left-0 w-full mt-1 border rounded-md bg-white shadow-lg z-10">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSelectedRecipient("all");
-                      setIsRecipientOpen(false);
-                    }}
-                    className="w-full px-3 font-sans py-2 text-left hover:bg-gray-50"
-                  >
-                    Hair Stylist
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSelectedRecipient("specific");
-                      setIsRecipientOpen(false);
-                    }}
-                    className="w-full px-3 font-sans py-2 text-left hover:bg-gray-50"
-                  >
-                    Specific Users
-                  </button>
-                </div>
-              )}
+        {/* Scrollable content */}
+        <div className="overflow-y-auto max-h-[calc(100vh-90px)]">
+          {" "}
+          {/* Added scrollable content area */}
+          <form onSubmit={handleSubmit} className="p-4 space-y-4">
+            <div className="space-y-1">
+              <label className="text-sm font-medium font-sans">
+                WOK Title*
+              </label>
+              <input
+                type="text"
+                required
+                placeholder="Enter"
+                className="w-full px-3 py-2 border font-sans rounded-md focus:outline-none focus:ring-2 focus:ring-[#798466] focus:border-transparent"
+              />
             </div>
-          </div>
 
-          <div className="space-y-1">
-            <label className="text-sm font-medium font-sans">Skill</label>
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => setIsRecipientOpen(!isRecipientOpen)}
-                className="w-full px-3 py-2 font-sans text-left border rounded-md flex items-center justify-between hover:border-gray-400"
-              >
-                {selectedRecipient === "all" ? "All/User" : "Specific Users"}
-                <ChevronDown className="h-4 w-4" />
-              </button>
-              {isRecipientOpen && (
-                <div className="absolute top-full font-sans left-0 w-full mt-1 border rounded-md bg-white shadow-lg z-10">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSelectedRecipient("all");
-                      setIsRecipientOpen(false);
-                    }}
-                    className="w-full px-3 font-sans py-2 text-left hover:bg-gray-50"
-                  >
-                    Tiling, Interior
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSelectedRecipient("specific");
-                      setIsRecipientOpen(false);
-                    }}
-                    className="w-full px-3 font-sans py-2 text-left hover:bg-gray-50"
-                  >
-                    Specific Users
-                  </button>
-                </div>
-              )}
+            <div className="space-y-1">
+              <label className="text-sm font-medium font-sans">
+                WOK Description*
+              </label>
+              <input
+                type="text"
+                required
+                placeholder="Enter"
+                className="w-full px-3 py-2 border font-sans rounded-md focus:outline-none focus:ring-2 focus:ring-[#798466] focus:border-transparent"
+              />
             </div>
-          </div>
 
-          <div className="space-y-1">
-            <label className="text-sm font-medium font-sans">Budget</label>
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => setIsRecipientOpen(!isRecipientOpen)}
-                className="w-full px-3 py-2 font-sans text-left border rounded-md flex items-center justify-between hover:border-gray-400"
-              >
-                {selectedRecipient === "all" ? "All/User" : "Specific Users"}
-                <ChevronDown className="h-4 w-4" />
-              </button>
-              {isRecipientOpen && (
-                <div className="absolute top-full font-sans left-0 w-full mt-1 border rounded-md bg-white shadow-lg z-10">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSelectedRecipient("all");
-                      setIsRecipientOpen(false);
-                    }}
-                    className="w-full px-3 font-sans py-2 text-left hover:bg-gray-50"
-                  >
-                    Open for negoptiation
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSelectedRecipient("specific");
-                      setIsRecipientOpen(false);
-                    }}
-                    className="w-full px-3 font-sans py-2 text-left hover:bg-gray-50"
-                  >
-                    Specific Users
-                  </button>
-                </div>
-              )}
+            <div className="space-y-1">
+              <label className="text-sm font-medium font-sans">
+                Service Category
+              </label>
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setIsRecipientOpen(!isRecipientOpen)}
+                  className="w-full px-3 py-2 font-sans text-left border rounded-md flex items-center justify-between hover:border-gray-400"
+                >
+                  {selectedRecipient === "all" ? "All/User" : "Specific Users"}
+                  <ChevronDown className="h-4 w-4" />
+                </button>
+                {isRecipientOpen && (
+                  <div className="absolute top-full font-sans left-0 w-full mt-1 border rounded-md bg-white shadow-lg z-10">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedRecipient("all");
+                        setIsRecipientOpen(false);
+                      }}
+                      className="w-full px-3 font-sans py-2 text-left hover:bg-gray-50"
+                    >
+                      Hair Stylist
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedRecipient("specific");
+                        setIsRecipientOpen(false);
+                      }}
+                      className="w-full px-3 font-sans py-2 text-left hover:bg-gray-50"
+                    >
+                      Specific Users
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium font-sans">Status</label>
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => setIsStatusOpen(!isStatusOpen)}
-                className="w-full px-3 py-2 font-sans text-left border rounded-md flex items-center justify-between hover:border-gray-400"
-              >
-                {selectedStatus === "draft" ? "Draft" : "Published"}
-                <ChevronDown className="h-4 w-4" />
-              </button>
-              {isStatusOpen && (
-                <div className="absolute top-full left-0 w-full mt-1 border rounded-md bg-white shadow-lg z-10">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSelectedStatus("draft");
-                      setIsStatusOpen(false);
-                    }}
-                    className="w-full px-3 font-sans py-2 text-left hover:bg-gray-50"
-                  >
-                    Draft
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSelectedStatus("published");
-                      setIsStatusOpen(false);
-                    }}
-                    className="w-full font-sans px-3 py-2 text-left hover:bg-gray-50"
-                  >
-                    Published
-                  </button>
-                </div>
-              )}
+            <div className="space-y-1">
+              <label className="text-sm font-medium font-sans">Skill</label>
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setIsRecipientOpen(!isRecipientOpen)}
+                  className="w-full px-3 py-2 font-sans text-left border rounded-md flex items-center justify-between hover:border-gray-400"
+                >
+                  {selectedRecipient === "all" ? "All/User" : "Specific Users"}
+                  <ChevronDown className="h-4 w-4" />
+                </button>
+                {isRecipientOpen && (
+                  <div className="absolute top-full font-sans left-0 w-full mt-1 border rounded-md bg-white shadow-lg z-10">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedRecipient("all");
+                        setIsRecipientOpen(false);
+                      }}
+                      className="w-full px-3 font-sans py-2 text-left hover:bg-gray-50"
+                    >
+                      Tiling, Interior
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedRecipient("specific");
+                        setIsRecipientOpen(false);
+                      }}
+                      className="w-full px-3 font-sans py-2 text-left hover:bg-gray-50"
+                    >
+                      Specific Users
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
 
-          <button
-            type="submit"
-            className="float-right px-4 py-2 font-sans bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
-          >
-            Save
-          </button>
-        </form>
+            <div className="space-y-1">
+              <label className="text-sm font-medium font-sans">Budget</label>
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setIsRecipientOpen(!isRecipientOpen)}
+                  className="w-full px-3 py-2 font-sans text-left border rounded-md flex items-center justify-between hover:border-gray-400"
+                >
+                  {selectedRecipient === "all" ? "All/User" : "Specific Users"}
+                  <ChevronDown className="h-4 w-4" />
+                </button>
+                {isRecipientOpen && (
+                  <div className="absolute top-full font-sans left-0 w-full mt-1 border rounded-md bg-white shadow-lg z-10">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedRecipient("all");
+                        setIsRecipientOpen(false);
+                      }}
+                      className="w-full px-3 font-sans py-2 text-left hover:bg-gray-50"
+                    >
+                      Open for negoptiation
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedRecipient("specific");
+                        setIsRecipientOpen(false);
+                      }}
+                      className="w-full px-3 font-sans py-2 text-left hover:bg-gray-50"
+                    >
+                      Specific Users
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium font-sans">Status</label>
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setIsStatusOpen(!isStatusOpen)}
+                  className="w-full px-3 py-2 font-sans text-left border rounded-md flex items-center justify-between hover:border-gray-400"
+                >
+                  {selectedStatus === "draft" ? "Draft" : "Published"}
+                  <ChevronDown className="h-4 w-4" />
+                </button>
+                {isStatusOpen && (
+                  <div className="absolute top-full left-0 w-full mt-1 border rounded-md bg-white shadow-lg z-10">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedStatus("draft");
+                        setIsStatusOpen(false);
+                      }}
+                      className="w-full px-3 font-sans py-2 text-left hover:bg-gray-50"
+                    >
+                      Draft
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedStatus("published");
+                        setIsStatusOpen(false);
+                      }}
+                      className="w-full font-sans px-3 py-2 text-left hover:bg-gray-50"
+                    >
+                      Published
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="float-right px-4 py-2 font-sans bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+            >
+              Save
+            </button>
+          </form>
+        </div>
       </div>
+
+      <FilterPanel
+        isOpen={isFilterOpen}
+        onClose={() => setIsFilterOpen(false)}
+      />
     </div>
   );
 }

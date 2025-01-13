@@ -1,30 +1,51 @@
 import { useState } from "react";
 import { Bell, ChevronDown, Search, LogOut, Settings } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import ProfilePicsPlaceholder from "../assets/Icons/ProfilePicsPlaceholder.svg";
 import NotificationPopup from "./Dashboard_components/AllNotifications";
 
 export default function Header() {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false); // Notification state
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Profile dropdown state
+  const [hasUnread] = useState(true);
 
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleDropdown = () => setIsOpen(!isOpen);
+  const toggleNotification = () => setIsNotificationOpen(!isNotificationOpen);
+  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
-  const [isNotificationPopupVisible, setIsNotificationPopupVisible] =
-    useState(false);
+  const location = useLocation();
 
-  const togglePopup = () => {
-    setIsNotificationPopupVisible(!isNotificationPopupVisible);
+  // Map of routes to page titles
+  const pageTitles = {
+    "/": "Dashboard",
+    "/reports": "Reports",
+    "/customers": "Customers",
+    "/transactions": "Transactions",
+    "/tickets": "Tickets",
+    "/manage_users": "Manage Users",
+    "/templates": "Templates",
+    "/contracts": "Contracts",
+    "/notifications": "Notifications",
+    "/support": "Support",
+    "/settings": "Settings",
+    "/profilesettings": "Profile Settings",
+    "/ticketdetails": "Ticket Details",
+    "/customerdetails": "Customer Details",
+    "/contractdetails": "Contract Details",
+    // Add other routes and titles here
   };
+
+  // Determine the page title based on the current path
+  const pageTitle = pageTitles[location.pathname] || "Page";
 
   return (
     <header className="sticky top-0 z-30 w-full bg-[#F9F9F9] lg:ml-0 ml-4">
       <div className="px-4 sm:px-6 py-1 bg-white my-4 rounded lg:mr-4 mr-8">
         <div className="flex h-16 items-center justify-between gap-4 sm:gap-6">
           <div className="flex items-center">
-            <h1 className=" text-lg font-semibold text-gray-900 font-sans">
-              Dashboard
+            <h1 className="text-lg font-semibold text-gray-900 font-sans">
+              {pageTitle}
             </h1>
           </div>
 
@@ -39,13 +60,9 @@ export default function Header() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => setIsSearchFocused(true)}
                 onBlur={() => setIsSearchFocused(false)}
-                className={`
-                  w-full py-2 pl-10 pr-4 text-sm text-gray-900
-                  bg-gray-50 rounded-lg border font-sans
-                  focus:outline-none focus:ring-2 focus:ring-gray-200
-                  transition-shadow duration-200
-                  ${isSearchFocused ? "border-gray-300" : "border-gray-200"}
-                `}
+                className={`w-full py-2 pl-10 pr-4 text-sm text-gray-900 bg-gray-50 rounded-lg border font-sans focus:outline-none focus:ring-2 focus:ring-gray-200 transition-shadow duration-200 ${
+                  isSearchFocused ? "border-gray-300" : "border-gray-200"
+                }`}
               />
             </div>
           </div>
@@ -54,13 +71,15 @@ export default function Header() {
           <div className="flex items-center gap-4">
             {/* Notifications */}
             <button
-              onClick={togglePopup}
               type="button"
+              onClick={toggleNotification}
               className="relative p-2 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-200 rounded-lg"
             >
               <span className="sr-only">View notifications</span>
               <Bell className="h-6 w-6" />
-              <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-red-500" />
+              {hasUnread && (
+                <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-red-500" />
+              )}
             </button>
 
             {/* User menu */}
@@ -79,56 +98,63 @@ export default function Header() {
               </div>
               <ChevronDown className="h-4 w-4 text-gray-600" />
             </button>
-            {/* Dropdown Content */}
-            {isOpen && (
-              <div className="absolute top-28 right-6 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg">
-                {/* Profile Section */}
-                <div className="p-4 border-b border-gray-200">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-12 h-12 rounded-full flex items-center justify-center">
-                      <img src={ProfilePicsPlaceholder} alt="" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-800 font-sans">
-                        Uche ThankGod
-                      </p>
-                      <p className="text-xs text-gray-500 font-sans">
-                        thankgod@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Dropdown Links */}
-                <ul className="py-2">
-                  <li>
-                    <Link
-                      to={`/profilesettings`}
-                      className="flex items-center px-4 py-2 text-mormal font-semibold text-gray-700 font-sans hover:bg-gray-100"
-                    >
-                      <Settings className="w-5 h-5 mr-2 text-gray-600 " />
-                      Profile Settings
-                    </Link>
-                  </li>
-                  <li>
-                    <button
-                      onClick={() => alert("Logged out!")}
-                      className="flex font-sans items-center w-full font-semibold px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-                    >
-                      <LogOut className="w-5 h-5 mr-2" />
-                      Log Out
-                    </button>
-                  </li>
-                </ul>
-              </div>
-            )}
           </div>
         </div>
-        {/* Conditional rendering of the popup */}
-          {isNotificationPopupVisible && (
-            <NotificationPopup onClose={() => setIsNotificationPopupVisible(false)} />
-        )}
       </div>
+
+      {/* Notification Popup */}
+      <NotificationPopup
+        isOpen={isNotificationOpen}
+        onClose={() => setIsNotificationOpen(false)}
+      />
+
+      {/* Profile Dropdown */}
+      {isDropdownOpen && (
+        <div className="absolute top-28 right-6 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg">
+          {/* Profile Section */}
+          <div className="p-4 border-b border-gray-200">
+            <div className="flex items-center space-x-3">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center">
+                <img src={ProfilePicsPlaceholder} alt="" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-800 font-sans">
+                  Uche ThankGod
+                </p>
+                <p className="text-xs text-gray-500 font-sans">
+                  thankgod@gmail.com
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Dropdown Links */}
+          <ul className="py-2">
+            <li>
+              <Link
+                to={`/profilesettings`}
+                onClick={() => setIsDropdownOpen(false)} // Close dropdown when clicked
+                className="flex items-center px-4 py-2 text-mormal font-semibold text-gray-700 font-sans hover:bg-gray-100"
+              >
+                <Settings className="w-5 h-5 mr-2 text-gray-600 " />
+                Profile Settings
+              </Link>
+            </li>
+            <li>
+              <button
+                onClick={() => {
+                  setIsDropdownOpen(false); // Close dropdown when clicked
+                  alert("Logged out!");
+                }}
+                className="flex font-sans items-center w-full font-semibold px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+              >
+                <LogOut className="w-5 h-5 mr-2" />
+                Log Out
+              </button>
+            </li>
+          </ul>
+        </div>
+      )}
     </header>
   );
 }

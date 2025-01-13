@@ -22,7 +22,7 @@ export default {
     function ({ addBase }) {
       addBase({
         "body": {
-          backgroundColor: "#D9E3F0", /* bg-secondary */
+          backgroundColor: "#F9F9F9", /* bg-secondary */
           color: "#2D3748", /* text-text-dark */
         },
       });

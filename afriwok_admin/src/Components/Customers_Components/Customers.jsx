@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { MoreHorizontal, Download, Filter, Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
+import {
+  MoreHorizontal,
+  Download,
+  Calendar,
+  ChevronLeft,
+  ChevronRight,
+  ChevronDown,
+} from "lucide-react";
+import FilterPanel from "../FilterPanel";
 
 const tabs = ["All", "Clients", "Service Providers"];
 
@@ -8,16 +16,17 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
   const [openMenuId, setOpenMenuId] = useState(null);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (openMenuId && !event.target.closest('td')) {
+      if (openMenuId && !event.target.closest("td")) {
         setOpenMenuId(null);
       }
     };
 
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
   }, [openMenuId]);
 
   const getTableColumns = (tab) => {
@@ -70,7 +79,7 @@ export default function Dashboard() {
               "myemailaddres@gmail.com",
               "+234 1234567890",
               "Enugu",
-              "Not Verified",
+              "Verified",
             ],
           },
           {
@@ -100,70 +109,70 @@ export default function Dashboard() {
         ];
       case "Clients":
         return [
-            {
-                id: "C153 456",
-                cols: [
-                  "C123 456",
-                  "Addison",
-                  "Lakoje",
-                  "myemailaddres@gmail.com",
-                  "+234 1234567890",
-                  "Enugu",
-                  "Not Verified",
-                ],
-              },
-              {
-                id: "C163 456",
-                cols: [
-                  "C123 456",
-                  "Addison",
-                  "Lakoje",
-                  "myemailaddres@gmail.com",
-                  "+234 1234567890",
-                  "Enugu",
-                  "Not Verified",
-                ],
-              },
-              {
-                id: "C127 456",
-                cols: [
-                  "C123 456",
-                  "Addison",
-                  "Lakoje",
-                  "myemailaddres@gmail.com",
-                  "+234 1234567890",
-                  "Enugu",
-                  "Not Verified",
-                ],
-              },
+          {
+            id: "C153 456",
+            cols: [
+              "C123 456",
+              "Addison",
+              "Lakoje",
+              "myemailaddres@gmail.com",
+              "+234 1234567890",
+              "Enugu",
+              "Not Verified",
+            ],
+          },
+          {
+            id: "C163 456",
+            cols: [
+              "C123 456",
+              "Addison",
+              "Lakoje",
+              "myemailaddres@gmail.com",
+              "+234 1234567890",
+              "Enugu",
+              "Not Verified",
+            ],
+          },
+          {
+            id: "C127 456",
+            cols: [
+              "C123 456",
+              "Addison",
+              "Lakoje",
+              "myemailaddres@gmail.com",
+              "+234 1234567890",
+              "Enugu",
+              "Not Verified",
+            ],
+          },
         ];
 
       case "Service Providers":
         return [
-            {
-                id: "C122 456",
-                cols: [
-                  "C123 456",
-                  "Addison",
-                  "Lakoje",
-                  "myemailaddres@gmail.com",
-                  "+234 1234567890",
-                  "Enugu",
-                  "Not Verified",
-                ],
-              },
-              {
-                id: "C103 456",
-                cols: [
-                  "C123 456",
-                  "Addison",
-                  "Lakoje",
-                  "myemailaddres@gmail.com",
-                  "+234 1234567890",
-                  "Enugu",
-                  "Not Verified",
-                ],
-              },
+          {
+            id: "C122 456",
+            cols: [
+              "C123 456",
+              "Addison",
+              "Lakoje",
+              "myemailaddres@gmail.com",
+              "+234 1234567890",
+              "Enugu",
+              "Not Verified",
+            ],
+          },
+          {
+            id: "C103 456",
+            cols: [
+              "C123 456",
+              "Addison",
+              "Lakoje",
+              "myemailaddres@gmail.com",
+              "+234 1234567890",
+              "Enugu",
+              "Not Verified",
+            ],
+          },
         ];
       default:
         return [];
@@ -172,12 +181,12 @@ export default function Dashboard() {
 
   const getStatusClass = (status) => {
     switch (status.toLowerCase()) {
-      case "active":
+      case "verified":
       case "completed":
       case "successful":
       case "open":
         return "bg-green-100 text-green-800";
-      case "in active":
+      case "unverified":
       case "pending":
       case "closed":
         return "bg-gray-100 text-gray-800";
@@ -213,11 +222,15 @@ export default function Dashboard() {
           {/* Table */}
           <div className="border rounded">
             <div className="flex bg-white px-4 rounded-t py-4 justify-between items-start md:items-center gap-2">
-              <button className="w-full font-sans font-semibold md:w-auto flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+              <button
+                className="w-full font-sans font-semibold md:w-auto flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                onClick={() => setIsFilterOpen(true)}
+              >
                 <Calendar className="h-4 w-4" />
                 Filter by
-                <Filter className="h-4 w-4" />
+                <ChevronDown className="h-4 w-4" />
               </button>
+
               <button className="w-full font-sans font-semibold md:w-auto flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
                 <Download className="h-4 w-4" />
                 Export
@@ -259,7 +272,7 @@ export default function Dashboard() {
                         <td key={index} className="px-6 py-4 whitespace-nowrap">
                           {index === row.cols.length - 1 ? (
                             <span
-                              className={`px-2 py-1 rounded-full text-xs font-sans ${getStatusClass(
+                              className={`px-2 py-1 rounded-full font-semibold text-xs font-sans ${getStatusClass(
                                 col
                               )}`}
                             >
@@ -273,19 +286,21 @@ export default function Dashboard() {
                         </td>
                       ))}
                       <td className="px-6 py-4 whitespace-nowrap relative">
-                        <button 
+                        <button
                           className="p-1 hover:bg-gray-100 rounded-full"
-                          onClick={() => setOpenMenuId(openMenuId === row.id ? null : row.id)}
+                          onClick={() =>
+                            setOpenMenuId(openMenuId === row.id ? null : row.id)
+                          }
                         >
                           <MoreHorizontal className="h-4 w-4 text-gray-500 font-sans" />
                         </button>
                         {openMenuId === row.id && (
                           <div className="absolute right-0 mt-1 w-24 bg-white rounded-lg shadow-lg border py-1 z-10">
-                            <Link to={`/customerdetails`}><button 
-                              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                            >
-                              View
-                            </button></Link>
+                            <Link to={`/customerdetails`}>
+                              <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                View
+                              </button>
+                            </Link>
                           </div>
                         )}
                       </td>
@@ -302,7 +317,9 @@ export default function Dashboard() {
               </span>
               <div className="flex items-center gap-2 order-1 md:order-2">
                 <button
-                  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.max(prev - 1, 1))
+                  }
                   disabled={currentPage === 1}
                   className="flex items-center gap-1 font-sans px-4 py-2 border rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                 >
@@ -326,7 +343,9 @@ export default function Dashboard() {
                   <span className="px-2">...</span>
                 </div>
                 <button
-                  onClick={() => setCurrentPage((prev) => Math.min(prev + 1, 30))}
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.min(prev + 1, 30))
+                  }
                   disabled={currentPage === 30}
                   className="flex items-center font-sans gap-1 px-4 py-2 border rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                 >
@@ -338,6 +357,11 @@ export default function Dashboard() {
           </div>
         </>
       )}
-</div>
-);
+
+      <FilterPanel
+        isOpen={isFilterOpen}
+        onClose={() => setIsFilterOpen(false)}
+      />
+    </div>
+  );
 }

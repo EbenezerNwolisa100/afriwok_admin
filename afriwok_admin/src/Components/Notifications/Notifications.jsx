@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import {
-  Filter,
   Download,
   MoreHorizontal,
   X,
@@ -11,6 +10,8 @@ import {
   ChevronRight,
   Calendar,
 } from "lucide-react";
+import FilterPanel from '../FilterPanel';
+
 
 export default function Notifications() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -19,6 +20,7 @@ export default function Notifications() {
   const [selectedStatus, setSelectedStatus] = useState("draft");
   const [isRecipientOpen, setIsRecipientOpen] = useState(false);
   const [isStatusOpen, setIsStatusOpen] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const notifications = [
     {
@@ -48,11 +50,14 @@ export default function Notifications() {
     <div className="w-full">
       {/* Table */}
       <div className="flex border border-b-0 flex-col bg-white sm:flex-row justify-between items-start sm:items-center px-6 py-6 gap-2">
-          <button className="md:w-auto w-full font-sans font-semibold flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-            <Calendar className="h-4 w-4" />
-            Filter by
-            <Filter className="h-4 w-4" />
-          </button>
+      <button
+                className="w-full font-sans font-semibold md:w-auto flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                onClick={() => setIsFilterOpen(true)}
+              >
+                <Calendar className="h-4 w-4" />
+                Filter by
+                <ChevronDown className="h-4 w-4" />
+              </button>
           <div className="flex w-full sm:w-auto gap-2">
             <button className="md:w-auto w-full bg-[#D0D5DD] text-white font-sans font-semibold flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
               <Download className="h-4 w-4" />
@@ -125,7 +130,7 @@ export default function Notifications() {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span
-                    className={`px-2 py-1 text-xs font-sans rounded-full ${
+                    className={`px-2 py-1 text-xs font-sans font-semibold rounded-full ${
                       notification.status === "Published"
                         ? "bg-green-100 text-green-800"
                         : "bg-gray-100 text-gray-800"
@@ -324,6 +329,11 @@ export default function Notifications() {
           </button>
         </form>
       </div>
+
+      <FilterPanel 
+        isOpen={isFilterOpen}
+        onClose={() => setIsFilterOpen(false)}
+      />
     </div>
   );
 }

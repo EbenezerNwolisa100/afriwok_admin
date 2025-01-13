@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { MoreHorizontal, Download, Filter, Calendar, ChevronLeft, ChevronRight, X, ArrowUp } from 'lucide-react';
+import { MoreHorizontal, Download, Calendar, ChevronLeft, ChevronRight, X, ArrowUp, ChevronDown } from 'lucide-react';
+import FilterPanel from '../FilterPanel';
 
 const tabs = ["All", "Contracts", "WOK Tokens", "Subscription"];
 
@@ -8,6 +9,7 @@ export default function Dashboard() {
   const [currentPage, setCurrentPage] = useState(1);
   const [openMenuId, setOpenMenuId] = useState(null);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -202,10 +204,13 @@ export default function Dashboard() {
           {/* Table */}
           <div className="border rounded">
             <div className="flex bg-white px-4 rounded-t py-4 justify-between items-start md:items-center gap-2">
-              <button className="w-full font-sans font-semibold md:w-auto flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+            <button
+                className="w-full font-sans font-semibold md:w-auto flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                onClick={() => setIsFilterOpen(true)}
+              >
                 <Calendar className="h-4 w-4" />
                 Filter by
-                <Filter className="h-4 w-4" />
+                <ChevronDown className="h-4 w-4" />
               </button>
               <button className="w-full font-sans font-semibold md:w-auto flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
                 <Download className="h-4 w-4" />
@@ -271,7 +276,7 @@ export default function Dashboard() {
                         {openMenuId === row.id && (
                           <div className="absolute right-0 mt-1 w-24 bg-white rounded-lg shadow-lg border py-1 z-10">
                             <button 
-                              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                              className="w-full text-left px-4 py-2 text-sm font-sans text-gray-700 hover:bg-gray-100"
                               onClick={() => handleViewTransaction(row)}
                             >
                               View
@@ -443,6 +448,10 @@ export default function Dashboard() {
   </div>
 )}
 
+<FilterPanel 
+        isOpen={isFilterOpen}
+        onClose={() => setIsFilterOpen(false)}
+      />
     </div>
   );
 }
