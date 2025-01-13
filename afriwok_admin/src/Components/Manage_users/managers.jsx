@@ -311,7 +311,7 @@ export default function ManageUsers() {
   };
 
   return (
-    <div className="max-w-[1400px] mx-auto bg-[#F9F9F9]">
+    <div className="w-full mx-auto bg-[#F9F9F9]">
       {/* Tabs */}
       <div className="border-b mb-6 -mx-2 md:mx-0">
         <div className="flex overflow-x-auto scrollbar-hide">
