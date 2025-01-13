@@ -23,8 +23,8 @@ function DashboardSummary() {
 
   return (
     <>
-      <div className="relative">
-        <div className="max-w-7xl mx-auto rounded-lg overflow-hidden">
+      <div className=" bg-white px-3 rounded">
+        <div className="w-full mx-auto rounded-lg overflow-hidden">
           {/* Header */}
           <header className="py-4 flex flex-wrap items-center justify-between gap-4">
             <h1 className="text-2xl font-semibold font-sans">Welcome, Uche</h1>
@@ -83,7 +83,7 @@ function DashboardSummary() {
           </header>
 
           {/* Main Content */}
-          <main className="p-5 bg-gray-100 rounded-lg">
+          <main className="p-5 bg-[#F9F9F9] rounded-lg">
             <h2 className="text-lg font-semibold mb-4 font-sans">Overall Summary</h2>
             <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 gap-4">
               {/* Revenue Generated */}

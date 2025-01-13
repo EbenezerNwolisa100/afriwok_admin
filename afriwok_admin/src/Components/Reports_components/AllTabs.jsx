@@ -48,6 +48,7 @@ export default function Dashboard() {
         return [];
     }
   };
+  const metrics = getMetrics(activeTab);
 
   const getTableColumns = (tab) => {
     switch (tab) {
@@ -232,8 +233,8 @@ export default function Dashboard() {
           ))}
         </div>
       </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mb-6">
+          
+      <div className={`grid gap-4 mb-5 ${metrics.length === 3 ? 'grid-cols-1 sm:grid-cols-3' : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-4'}`}>
         {getMetrics(activeTab).map((metric) => (
           <div
             key={metric.title}

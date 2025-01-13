@@ -7,8 +7,8 @@ import NotificationPopup from "./Dashboard_components/AllNotifications";
 export default function Header() {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isNotificationOpen, setIsNotificationOpen] = useState(false); // Notification state
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Profile dropdown state
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false); 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
   const [hasUnread] = useState(true);
 
   const toggleNotification = () => setIsNotificationOpen(!isNotificationOpen);
@@ -16,7 +16,6 @@ export default function Header() {
 
   const location = useLocation();
 
-  // Map of routes to page titles
   const pageTitles = {
     "/": "Dashboard",
     "/reports": "Reports",
@@ -33,14 +32,12 @@ export default function Header() {
     "/ticketdetails": "Ticket Details",
     "/customerdetails": "Customer Details",
     "/contractdetails": "Contract Details",
-    // Add other routes and titles here
   };
 
-  // Determine the page title based on the current path
   const pageTitle = pageTitles[location.pathname] || "Page";
 
   return (
-    <header className="sticky top-0 z-30 w-full bg-[#F9F9F9] lg:ml-0 ml-4">
+    <header className="sticky top-0 z-20 w-full bg-[#F9F9F9] lg:ml-0 ml-4">
       <div className="px-4 sm:px-6 py-1 bg-white my-4 rounded lg:mr-4 mr-8">
         <div className="flex h-16 items-center justify-between gap-4 sm:gap-6">
           <div className="flex items-center">
@@ -133,7 +130,7 @@ export default function Header() {
             <li>
               <Link
                 to={`/profilesettings`}
-                onClick={() => setIsDropdownOpen(false)} // Close dropdown when clicked
+                onClick={() => setIsDropdownOpen(false)}
                 className="flex items-center px-4 py-2 text-mormal font-semibold text-gray-700 font-sans hover:bg-gray-100"
               >
                 <Settings className="w-5 h-5 mr-2 text-gray-600 " />
@@ -143,7 +140,7 @@ export default function Header() {
             <li>
               <button
                 onClick={() => {
-                  setIsDropdownOpen(false); // Close dropdown when clicked
+                  setIsDropdownOpen(false); 
                   alert("Logged out!");
                 }}
                 className="flex font-sans items-center w-full font-semibold px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
