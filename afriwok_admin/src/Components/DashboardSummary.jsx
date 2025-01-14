@@ -30,7 +30,7 @@ function DashboardSummary() {
             <h1 className="text-2xl font-semibold font-sans">Welcome, Uche</h1>
             
             <div className="flex items-center space-x-4">
-              <div className="relative">
+              <div className="">
                 <button onClick={toggleDate} className="flex font-sans items-center px-3 py-2 border border-gray-300 rounded-md text-sm font-semibold text-gray-700 bg-white hover:bg-gray-50">
                   <Calendar className="h-4 w-4 mr-2" />
                   Last 7 Days
@@ -48,7 +48,7 @@ function DashboardSummary() {
                 )}
               </div>
               
-              <div className="relative">
+              <div className="">
                 <button onClick={toggleCreate} className="flex font-sans items-center px-3 py-2 bg-[#87986A] text-white rounded-md text-sm font-semibold hover:bg-[#758a5c]">
                   <Plus className="h-4 w-4 mr-2" />
                   Create
