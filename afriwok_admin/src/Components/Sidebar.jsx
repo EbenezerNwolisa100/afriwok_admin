@@ -192,7 +192,6 @@
 
 
 
-
 import { useEffect, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Logo from "../assets/Images/Logo.svg";
@@ -209,6 +208,11 @@ const mainNavItems = [
     title: "Reports",
     to: "/reports",
     icon: <FileText className="h-5 w-5" />,
+  },
+  {
+    title: "Marketplace",
+    to: "/marketplace",
+    icon: <Bell className="h-5 w-5" />,
   },
   {
     title: "Customers",

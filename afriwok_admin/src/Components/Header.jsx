@@ -200,6 +200,9 @@ function Header({ isMobileMenuOpen }) {
     "/ticketdetails": "Ticket Details",
     "/customerdetails": "Customer Details",
     "/contractdetails": "Contract Details",
+    "/wokpost": "WOK Post",
+    "/wokprofile": "WOK Profile",
+    "/marketplace": "MarketPlace",
   };
 
   const pageTitle = pageTitles[location.pathname] || "Page";

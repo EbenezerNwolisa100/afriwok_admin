@@ -19,6 +19,9 @@ import Contracts from './Pages/Contracts/contracts'
 import ContractDetails from './Pages/Contracts/contractdetails';
 import Customers from './Pages/Customers/Customers';
 import CustomerDetails from './Pages/Customers/customerdetails';
+import MarketPlace from './Pages/MarketPlace/marketplace';
+import WokProfile from './Pages/MarketPlace/wokprofile';
+import WokPost from './Pages/MarketPlace/wokpost';
 
 function App() {
   return (
@@ -48,6 +51,9 @@ function App() {
                 <Route path="/contractdetails" element={<ContractDetails />} />
                 <Route path="/customers" element={<Customers />} />
                 <Route path="/customerdetails" element={<CustomerDetails />} />
+                <Route path="/marketplace" element={<MarketPlace />} />
+                <Route path="/wokprofile" element={<WokProfile />} />
+                <Route path="/wokpost" element={<WokPost />} />
                 {/* Add other sidebar routes */}
               </Routes>
             </AdminLayout>

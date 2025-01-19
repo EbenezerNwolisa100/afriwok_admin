@@ -7,8 +7,8 @@ import WorkEvidence from "../../assets/Images/WorkEvidence.svg";
 import { MarkForRefundForm } from "../../Components/Contracts_Components/MarkUnreadForm";
 import { SuspendWokForm } from "../../Components/Contracts_Components/SuspendForm";
 
-const ContractDetails = () => {
-  const [activeTab, setActiveTab] = useState("Service Provider");
+const WokPost = () => {
+  const [activeTab, setActiveTab] = useState("Completed");
   const [isRefundOpen, setIsRefundOpen] = useState(false);
   const [isSuspendOpen, setIsSuspendOpen] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -81,7 +81,7 @@ const ContractDetails = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <button
-        className="mb-3 font-semibold font-sans flex bg-white border-gray-300 border items-center gap-1 rounded px-4 py-2"
+        className="mb-3 font-semibold font-sans flex bg-white border-gray-400 border items-center gap-1 rounded px-4 py-2"
         onClick={handleBack}
       >
         <ArrowLeft className="h-5 w-5" />
@@ -100,13 +100,13 @@ const ContractDetails = () => {
               <div className="flex space-x-3">
                 <button 
                 onClick={() => setIsRefundOpen(true)}
-                className="px-4 py-2 text-sm font-sans font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
-                  Mark for Refund
+                className="px-4 py-2 text-sm font-sans font-medium bg-[#D0D5DD] text-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                  Delist
                 </button>
                 <button 
                 onClick={() => setIsSuspendOpen(true)}
-                className="px-4 py-2 text-sm font-sans font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
-                  Suspend
+                className="px-4 py-2 text-sm font-sans font-medium bg-[#D0D5DD] text-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                  Suspend User
                 </button>
               </div>
             </div>
@@ -226,7 +226,7 @@ const ContractDetails = () => {
               {/* Tabs */}
               <div className="border-b">
                 <div className="flex">
-                  {["Service Provider", "WOK History", "Ticket"].map((tab) => (
+                  {["Active", "Completed", "Suspended"].map((tab) => (
                     <button
                       key={tab}
                       onClick={() => setActiveTab(tab)}
@@ -244,7 +244,7 @@ const ContractDetails = () => {
 
               {/* Tab Content */}
               <div className="p-6">
-                {activeTab === "Service Provider" && (
+                {activeTab === "Active" && (
                   <div className="flex sm:items-center items-left gap-2 flex-col sm:flex-row justify-between ">
                     <div className="flex items-center gap-2">
                       <div className="w-12 h-12 rounded-full overflow-hidden">
@@ -265,12 +265,9 @@ const ContractDetails = () => {
                       </div>
                     </div>
                     
-                  
-
-                 
                     <>
                       <button
-                        className="flex font-sans border p-3 rounded items-center text-normal text-gray-600 hover:text-gray-400"
+                        className="flex font-sans border p-2 rounded items-center text-normal text-gray-600 hover:text-gray-400"
                         onClick={() => setIsPopupOpen(true)}
                       >
                         View WOK details
@@ -362,4 +359,4 @@ const ContractDetails = () => {
   );
 };
 
-export default ContractDetails;
+export default WokPost;
