@@ -352,7 +352,7 @@ function Sidebar({ isMobileMenuOpen, setIsMobileMenuOpen }) {
             </ul>
           </nav>
 
-          <div className="p-3 border-t border-gray-200">
+          <div className="p-1 border-t border-gray-200">
             <ul className="space-y-1">
               {bottomNavItems.map((item) => (
                 <li key={item.title}>
