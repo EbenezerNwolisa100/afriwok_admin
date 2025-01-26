@@ -1,16 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Calendar, ChevronDown, Plus, Search, Mail, FileText, Users } from 'lucide-react';
 import NewNotificationForm from "../Components/Dashboard_components/NewNotification";
 import NewTicketForm from "../Components/Dashboard_components/NewTicket";
 import NewAdminForm from "../Components/Dashboard_components/NewAdminUser";
 
 function DashboardSummary() {
+  const [user, setUser] = useState({name: "", first_name: ""});
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isDateOpen, setIsDateOpen] = useState(false);
   const [activeForm, setActiveForm] = useState(null);
 
   const toggleCreate = () => setIsCreateOpen(!isCreateOpen);
   const toggleDate = () => setIsDateOpen(!isDateOpen);
+
+  useEffect(() => {
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  }, []);
 
   const handleFormOpen = (formType) => {
     setActiveForm(formType);
@@ -27,7 +35,7 @@ function DashboardSummary() {
         <div className="w-full mx-auto rounded-lg overflow-hidden">
           {/* Header */}
           <header className="py-4 flex flex-wrap items-center justify-between gap-4">
-            <h1 className="text-2xl font-semibold font-sans">Welcome, Uche</h1>
+            <h1 className="text-2xl font-semibold font-sans">Welcome {user.first_name}</h1>
             
             <div className="flex items-center space-x-4">
               <div className="">

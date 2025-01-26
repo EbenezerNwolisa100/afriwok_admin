@@ -165,24 +165,80 @@
 
 
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import { Bell, ChevronDown, Search, LogOut, Settings } from 'lucide-react';
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import ProfilePicsPlaceholder from "../assets/Icons/ProfilePicsPlaceholder.svg";
 import NotificationPopup from "./Dashboard_components/AllNotifications";
 
 function Header({ isMobileMenuOpen }) {
+  const [user, setUser] = useState({ first_name: "", last_name: "", email: ""});
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isNotificationOpen, setIsNotificationOpen] = useState(false); 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
   const [hasUnread] = useState(true);
+  const [isLoggingOut, setIsLoggingOut] = useState(false)
+
 
   const toggleNotification = () => setIsNotificationOpen(!isNotificationOpen);
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
-  const location = useLocation();
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const userData = localStorage.getItem("user")
+    if (userData) {
+      setUser(JSON.parse(userData))
+    }
+  }, [])
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true)
+    try {
+      const token = localStorage.getItem("authToken")
+      if (!token) throw new Error("No token found!")
+
+      const config = {
+        method: "post",
+        url: "https://admin.dev.afriwok.ng/api/v1/admin/logout",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+
+      const response = await axios(config)
+      console.log("Logout successful:", response.data)
+
+      // Clear local storage
+      localStorage.removeItem("authToken")
+      localStorage.removeItem("userDetails")
+      localStorage.removeItem("user")
+
+      // Show success message
+      alert("Logout successful")
+
+      // Redirect to login page
+      navigate("/login")
+    } catch (error) {
+      if (error.response) {
+        console.error("API Response Error:", error.response)
+        alert(`Logout failed: ${error.response.data.message || error.response.statusText}`)
+      } else {
+        console.error("Error:", error.message)
+        alert("An unexpected error occurred. Please try again.")
+      }
+    } finally {
+      setIsLoggingOut(false)
+      setIsDropdownOpen(false)
+    }
+  }
+  
+
 
   const pageTitles = {
     "/": "Dashboard",
@@ -260,7 +316,7 @@ function Header({ isMobileMenuOpen }) {
               </div>
               <div className="hidden sm:block text-right">
                 <div className="text-base font-sans font-medium text-gray-900">
-                  Uche Thankgod
+                  {user.first_name} {user.last_name}
                 </div>
               </div>
               <ChevronDown className="h-4 w-4 text-gray-600" />
@@ -283,10 +339,10 @@ function Header({ isMobileMenuOpen }) {
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-800 font-sans">
-                  Uche ThankGod
+                  {user.first_name} {user.last_name}
                 </p>
                 <p className="text-xs text-gray-500 font-sans">
-                  thankgod@gmail.com
+                  {user.email}
                 </p>
               </div>
             </div>
@@ -304,16 +360,14 @@ function Header({ isMobileMenuOpen }) {
               </Link>
             </li>
             <li>
-              <button
-                onClick={() => {
-                  setIsDropdownOpen(false); 
-                  alert("Logged out!");
-                }}
-                className="flex font-sans items-center w-full font-semibold px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-              >
-                <LogOut className="w-5 h-5 mr-2" />
-                Log Out
-              </button>
+            <button
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+              className="flex font-sans items-center w-full font-semibold px-4 py-2 text-sm text-red-600 hover:bg-gray-100 disabled:opacity-50"
+            >
+              <LogOut className="w-5 h-5 mr-2" />
+              {isLoggingOut ? "Logging out..." : "Log Out"}
+            </button>
             </li>
           </ul>
         </div>

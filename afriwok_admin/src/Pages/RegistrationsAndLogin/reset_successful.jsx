@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Logo from "../../assets/Images/Logo.svg";
 import { GlobeIcon } from "lucide-react";
 
@@ -37,12 +38,14 @@ export default function SignupPage() {
           </div>
 
           <form className="space-y-4">
+            <Link to={`/login`}>
             <button
               type="submit"
               className="w-full py-2 px-4 font-sans border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#8B9467] hover:bg-[#7A8C6A] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8B9D7B]"
             >
-              Proceed to Dashboard
+              Proceed to Login
             </button>
+            </Link>
           </form>
         </div>
       </main>
