@@ -23,60 +23,69 @@ import MarketPlace from "./Pages/MarketPlace/marketplace";
 import WokProfile from "./Pages/MarketPlace/wokprofile";
 import WokPost from "./Pages/MarketPlace/wokpost";
 import ProtectedRoutes from "./MiddlewareAuth/ProtectedRoutes";
+import { ApiResponseProvider } from "./ApiResponseContext";
+import ApiResponse from "./Components/ApiResponses";
 
 function App() {
   return (
+    <ApiResponseProvider>
+      <ApiResponse />
+        <Router>
+          <Routes>
+            {/* Guest Pages */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/resetpassword" element={<ResetPassword />} />
+            <Route path="/enter_otp" element={<EnterOTP />} />
+            <Route path="/newpassword" element={<NewPassword />} />
+            <Route path="/reset_successful" element={<ResetSuccessful />} />
 
-    <Router>
-      <Routes>
-        {/* Guest Pages */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/resetpassword" element={<ResetPassword />} />
-        <Route path="/enter_otp" element={<EnterOTP />} />
-        <Route path="/newpassword" element={<NewPassword />} />
-        <Route path="/reset_successful" element={<ResetSuccessful />} />
-
-        {/* Protected Routes */}
-        <Route
-          path="/*"
-          element={
-            <ProtectedRoutes>
-              <AdminLayout>
-                <Routes>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path="/reports" element={<Reports />} />
-                  <Route path="/transactions" element={<Transactions />} />
-                  <Route path="/tickets" element={<Tickets />} />
-                  <Route path="/ticketdetails" element={<TicketDetails />} />
-                  <Route
-                    path="/profilesettings"
-                    element={<ProfileSettings />}
-                  />
-                  <Route path="/manage_users" element={<Manage_users />} />
-                  <Route path="/notifications" element={<Notifications />} />
-                  <Route path="/templates" element={<Templates />} />
-                  <Route path="/support" element={<Support />} />
-                  <Route path="/contracts" element={<Contracts />} />
-                  <Route
-                    path="/contractdetails"
-                    element={<ContractDetails />}
-                  />
-                  <Route path="/customers" element={<Customers />} />
-                  <Route
-                    path="/customerdetails"
-                    element={<CustomerDetails />}
-                  />
-                  <Route path="/marketplace" element={<MarketPlace />} />
-                  <Route path="/wokprofile" element={<WokProfile />} />
-                  <Route path="/wokpost" element={<WokPost />} />
-                </Routes>
-              </AdminLayout>
-            </ProtectedRoutes>
-          }
-        />
-      </Routes>
-    </Router>
-    
+            {/* Protected Routes */}
+            <Route
+              path="/*"
+              element={
+                <ProtectedRoutes>
+                  <AdminLayout>
+                    <Routes>
+                      <Route path="/" element={<Dashboard />} />
+                      <Route path="/reports" element={<Reports />} />
+                      <Route path="/transactions" element={<Transactions />} />
+                      <Route path="/tickets" element={<Tickets />} />
+                      <Route
+                        path="/ticketdetails"
+                        element={<TicketDetails />}
+                      />
+                      <Route
+                        path="/profilesettings"
+                        element={<ProfileSettings />}
+                      />
+                      <Route path="/manage_users" element={<Manage_users />} />
+                      <Route
+                        path="/notifications"
+                        element={<Notifications />}
+                      />
+                      <Route path="/templates" element={<Templates />} />
+                      <Route path="/support" element={<Support />} />
+                      <Route path="/contracts" element={<Contracts />} />
+                      <Route
+                        path="/contractdetails"
+                        element={<ContractDetails />}
+                      />
+                      <Route path="/customers" element={<Customers />} />
+                      <Route
+                        path="/customerdetails"
+                        element={<CustomerDetails />}
+                      />
+                      <Route path="/marketplace" element={<MarketPlace />} />
+                      <Route path="/wokprofile" element={<WokProfile />} />
+                      <Route path="/wokpost" element={<WokPost />} />
+                    </Routes>
+                  </AdminLayout>
+                </ProtectedRoutes>
+              }
+            />
+          </Routes>
+        </Router>
+    </ApiResponseProvider>
   );
 }
 

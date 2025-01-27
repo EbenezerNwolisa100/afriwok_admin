@@ -72,6 +72,7 @@ export default function AddNewAdminUser({ isOpen, onClose }) {
         },
       )
 
+
       console.log("Admin user added successfully:", response.data)
       setSuccessMessage("Admin user added successfully!")
       // Reset the form
